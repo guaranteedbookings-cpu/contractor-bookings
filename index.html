@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contractor Bookings | Transform Your Airbnb Into Monthly Income</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gold: #D4AF37;
+            --gold-light: #FFD700;
+            --black: #0a0a0a;
+            --dark-grey: #1a1a1a;
+            --text: #e0e0e0;
+            --text-muted: #888;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--black);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 25px;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 20px 0;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 20px;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            padding: 100px 0;
+            background: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #0a0a0a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-subtitle {
+            color: var(--gold);
+            font-size: 14px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            line-height: 1.1;
+            margin-bottom: 25px;
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        .hero h1 span {
+            color: var(--gold);
+            display: block;
+        }
+
+        .hero-description {
+            font-size: 18px;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            line-height: 1.7;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--gold) 0%, #B8960C 100%);
+            color: #000;
+            padding: 20px 40px;
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3);
+            transition: all 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.5);
+        }
+
+        /* Visual Element */
+        .hero-visual {
+            position: relative;
+        }
+
+        .calendar-mockup {
+            background: var(--dark-grey);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .calendar-title {
+            color: var(--gold);
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+        }
+
+        .day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .day.booked {
+            background: rgba(212, 175, 55, 0.2);
+            color: var(--gold);
+            font-weight: 700;
+            border: 1px solid var(--gold);
+        }
+
+        .day.header {
+            background: transparent;
+            color: var(--gold);
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        /* Problem Section */
+        .problem {
+            padding: 100px 0;
+            background: var(--dark-grey);
+            text-align: center;
+        }
+
+        .problem h2 {
+            font-size: 42px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .problem h2 span {
+            color: var(--gold);
+        }
+
+        .problem-text {
+            font-size: 20px;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto 50px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .stat-card {
+            background: var(--black);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Oswald', sans-serif;
+            font-size: 48px;
+            color: var(--gold);
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 14px;
+        }
+
+        /* Solution Section */
+        .solution {
+            padding: 100px 0;
+            background: var(--black);
+        }
+
+        .solution-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .solution h2 {
+            font-size: 42px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .solution-subtitle {
+            font-size: 20px;
+            color: var(--text-muted);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.05), transparent);
+            border-left: 4px solid var(--gold);
+            padding: 40px;
+            position: relative;
+        }
+
+        .feature-icon {
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 24px;
+            color: var(--gold);
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        /* Trust Badge */
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 60px;
+            padding: 30px;
+            background: rgba(212, 175, 55, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .shield-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: #000;
+        }
+
+        .trust-text h3 {
+            color: #fff;
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .trust-text p {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        /* Lead Capture Section */
+        .lead-capture {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--dark-grey) 0%, var(--black) 100%);
+            text-align: center;
+            border-top: 2px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .lead-capture h2 {
+            font-size: 42px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .lead-capture p {
+            color: var(--text-muted);
+            font-size: 18px;
+            margin-bottom: 40px;
+        }
+
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        #leadCaptureForm {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        input[type="email"] {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: #fff;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        input[type="email"]::placeholder {
+            color: var(--text-muted);
+        }
+
+        input[type="email"]:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        .submit-btn {
+            background: var(--gold);
+            color: #000;
+            padding: 20px;
+            border: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: var(--gold-light);
+        }
+
+        .success-message {
+            display: none;
+            background: rgba(212, 175, 55, 0.1);
+            border: 2px solid var(--gold);
+            color: var(--gold);
+            padding: 30px;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .privacy-text {
+            margin-top: 20px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            background: #000;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        /* Mobile */
+        @media (max-width: 968px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .trust-badge {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">Professional Property Operations</div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <div class="hero-subtitle">Tired of Short-Stay Bookings?</div>
+                    <h1>Transform Your Property Into <span>Reliable Monthly Income</span></h1>
+                    <p class="hero-description">
+                        Stop fighting for weekend tourists. We convert your Airbnb into a 
+                        contractor accommodation asset—securing 4-night minimum stays, 
+                        Monday through Thursday, every single week.
+                    </p>
+                    <a href="#apply" class="cta-button">Get Started →</a>
+                </div>
+                
+                <div class="hero-visual">
+                    <div class="calendar-mockup">
+                        <div class="calendar-header">
+                            <span class="calendar-title">OCCUPANCY CALENDAR</span>
+                            <span style="color: var(--gold);">✓ Secured</span>
+                        </div>
+                        <div class="calendar-grid">
+                            <div class="day header">M</div>
+                            <div class="day header">T</div>
+                            <div class="day header">W</div>
+                            <div class="day header">T</div>
+                            <div class="day header">F</div>
+                            <div class="day header">S</div>
+                            <div class="day header">S</div>
+                            
+                            <div class="day booked">✓</div>
+                            <div class="day booked">✓</div>
+                            <div class="day booked">✓</div>
+                            <div class="day booked">✓</div>
+                            <div class="day"></div>
+                            <div class="day"></div>
+                            <div class="day"></div>
+                            
+                            <div class="day booked">✓</div>
+                            <div class="day booked">✓</div>
+                            <div class="day booked">✓</div>
+                            <div class="day booked">✓</div>
+                            <div class="day"></div>
+                            <div class="day"></div>
+                            <div class="day"></div>
+                            
+                            <div class="day booked">✓</div>
+                            <div class="day booked">✓</div>
+                            <div class="day booked">✓</div>
+                            <div class="day booked">✓</div>
+                            <div class="day"></div>
+                            <div class="day"></div>
+                            <div class="day"></div>
+                        </div>
+                        <div style="margin-top: 20px; text-align: center; color: var(--gold); font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">
+                            75% Mid-Week Occupancy
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="problem">
+        <div class="container">
+            <h2>The <span>Short-Stay</span> Trap</h2>
+            <p class="problem-text">
+                Weekend warriors. Constant turnover. Empty Mondays. While you're dropping prices 
+                to compete with holiday lets, contractors are sleeping in budget hotels 2 miles away.
+            </p>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">£850</span>
+                    <span class="stat-label">Typical Monthly Airbnb Revenue</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">£2,100</span>
+                    <span class="stat-label">Contractor Booking Potential</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">147%</span>
+                    <span class="stat-label">Revenue Increase</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section class="solution">
+        <div class="container">
+            <div class="solution-header">
+                <h2>Our Complete Solution</h2>
+                <p class="solution-subtitle">We handle everything—from contractor outreach to booking management</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📋</div>
+                    <h3>Full Management</h3>
+                    <p>We take over your property listing, optimise it for contractor demographics, and handle all guest communications. You collect rent, we handle the hassle.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Direct Outreach</h3>
+                    <p>Using construction intelligence data, we identify active projects in your area and reach out directly to project managers with accommodation needs.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Secured Stays</h3>
+                    <p>No more empty weekdays. We secure 4-night minimum stays (Mon-Thu) with professional contractors who pay premium rates for guaranteed accommodation.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Guaranteed Income</h3>
+                    <p>We work on a performance basis—if we don't secure bookings, you don't pay. Our fee comes from the increased revenue we generate.</p>
+                </div>
+            </div>
+            
+            <div class="trust-badge">
+                <div class="shield-icon">✓</div>
+                <div class="trust-text">
+                    <h3>Verified Contractor Network</h3>
+                    <p>All contractors are vetted, professional, and backed by corporate contracts. Your property is treated with respect.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lead Capture Section -->
+    <section class="lead-capture" id="apply">
+        <div class="container">
+            <h2>Ready to Transform Your Property?</h2>
+            <p>Enter your details below. We'll analyse your location and send you a free revenue projection within 24 hours.</p>
+            
+            <div class="form-container">
+                <form id="leadCaptureForm">
+                    <input type="email" id="emailInput" placeholder="Enter your email address" required>
+                    <input type="text" id="locationInput" placeholder="Property location (City/Postcode)" required>
+                    <button type="submit" id="submitBtn" class="submit-btn">Get My Free Revenue Projection</button>
+                </form>
+                
+                <div id="successMessage" class="success-message">
+                    ✓ Check your inbox! Your revenue projection is on its way.
+                </div>
+                
+                <p class="privacy-text">No spam. Unsubscribe anytime. We never share your data with third parties.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>© 2026 Professional Property Operations. Confidential Investment Framework.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('leadCaptureForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('emailInput').value.trim();
+            const location = document.getElementById('locationInput').value.trim();
+            const btn = document.getElementById('submitBtn');
+            
+            if (!email.includes('@')) {
+                alert('Please enter a valid email address');
+                return;
+            }
+            
+            btn.textContent = 'Sending...';
+            btn.disabled = true;
+            
+            try {
+                const res = await fetch('https://n8n-self-hosted-2-6i3h.onrender.com/webhook/lead-capture', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        email: email,
+                        location: location,
+                        source: 'contractor_bookings_landing',
+                        timestamp: new Date().toISOString()
+                    })
+                });
+                
+                if (res.ok) {
+                    document.getElementById('leadCaptureForm').style.display = 'none';
+                    document.getElementById('successMessage').style.display = 'block';
+                } else {
+                    throw new Error('Failed');
+                }
+            } catch (err) {
+                btn.textContent = 'Error - Try Again';
+                setTimeout(() => {
+                    btn.textContent = 'Get My Free Revenue Projection';
+                    btn.disabled = false;
+                }, 3000);
+            }
+        });
+    </script>
+
+</body>
+</html>
